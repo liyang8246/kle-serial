@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-05T00:00:00.000Z",
+  "dependencies": [
+    {
+      "name": "keyboard-layout-editor",
+      "resolvedVersion": "latest",
+      "repoUrl": "https://github.com/ijprest/keyboard-layout-editor.git",
+      "ref": "HEAD",
+      "path": ".slim/clonedeps/repos/ijprest__keyboard-layout-editor",
+      "packagePath": "",
+      "reason": "Reference implementation of KLE JSON parser in CoffeeScript/JS; canonical source for behavioral parity"
+    },
+    {
+      "name": "kle-serial",
+      "resolvedVersion": "latest",
+      "repoUrl": "https://github.com/ijprest/kle-serial.git",
+      "ref": "HEAD",
+      "path": ".slim/clonedeps/repos/ijprest__kle-serial",
+      "packagePath": "",
+      "reason": "Existing TS serialization library; user explicitly asked NOT to reference its design, but useful to know what NOT to do"
+    }
+  ]
+}
