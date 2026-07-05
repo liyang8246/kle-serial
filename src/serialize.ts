@@ -173,11 +173,22 @@ export function serialize(keyboard: Keyboard): unknown[] {
       newRow = false
     }
 
-    current.rotation_angle = serializeProp(props, 'r', roundTo4(key.rotation_angle), current.rotation_angle) as number
-    current.rotation_x = serializeProp(props, 'rx', roundTo4(key.rotation_x), current.rotation_x) as number
-    current.rotation_y = serializeProp(props, 'ry', roundTo4(key.rotation_y), current.rotation_y) as number
-    current.y += serializeProp(props, 'y', roundTo4(key.y - current.y), 0) as number
-    current.x += serializeProp(props, 'x', roundTo4(key.x - current.x), 0) as number + key.width
+    // Accumulate unrounded values in current for precise delta computation,
+    // but emit rounded values via serializeProp (matches reference behavior).
+    serializeProp(props, 'r', roundTo4(key.rotation_angle), roundTo4(current.rotation_angle))
+    current.rotation_angle = key.rotation_angle
+    serializeProp(props, 'rx', roundTo4(key.rotation_x), roundTo4(current.rotation_x))
+    current.rotation_x = key.rotation_x
+    serializeProp(props, 'ry', roundTo4(key.rotation_y), roundTo4(current.rotation_y))
+    current.rotation_y = key.rotation_y
+
+    const yDelta = key.y - current.y
+    serializeProp(props, 'y', roundTo4(yDelta), 0)
+    current.y += yDelta
+
+    const xDelta = key.x - current.x
+    serializeProp(props, 'x', roundTo4(xDelta), 0)
+    current.x += xDelta + key.width
     current.color = serializeProp(props, 'c', key.color, current.color) as string
 
     // Fill in textColor defaults for the serialized newline-joined format

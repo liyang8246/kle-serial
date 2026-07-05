@@ -9,7 +9,25 @@ export class KleParseError extends Error {
   }
 }
 
+/** Deep merge source into target (matches reference `extend()` behavior). */
+function deepMerge(target: Record<string, unknown>, source: Record<string, unknown>): void {
+  for (const prop in source) {
+    if (Object.hasOwn(source, prop)) {
+      const srcVal = source[prop]
+      if (srcVal != null && typeof srcVal === 'object' && !Array.isArray(srcVal)) {
+        target[prop] ??= {}
+        deepMerge(target[prop] as Record<string, unknown>, srcVal as Record<string, unknown>)
+      }
+      else {
+        target[prop] = srcVal
+      }
+    }
+  }
+}
+
 export function deserialize(rows: unknown[]): Keyboard {
+  if (!Array.isArray(rows))
+    throw new KleParseError('expected an array')
   const current = createCurrentState()
   const meta: KeyboardMetadata = clone(DEFAULT_METADATA)
   const keys: Key[] = []
@@ -51,7 +69,7 @@ export function deserialize(rows: unknown[]): Keyboard {
         else if (el != null && typeof el === 'object') {
           const parsed = RawKeyPropsSchema.safeParse(el)
           if (!parsed.success)
-            continue
+            throw new KleParseError('invalid key properties', { errors: parsed.error, input: el })
 
           const key = parsed.data
 
@@ -155,7 +173,7 @@ export function deserialize(rows: unknown[]): Keyboard {
     else if (row != null && typeof row === 'object') {
       if (r !== 0)
         throw new KleParseError('keyboard metadata must be the first element', row)
-      Object.assign(meta, row)
+      deepMerge(meta as Record<string, unknown>, row as Record<string, unknown>)
     }
 
     current.x = current.rotation_x

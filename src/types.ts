@@ -152,7 +152,7 @@ export const RawKeyPropsSchema = z.object({
   a: z.number().min(0).max(7).optional(),
   f: z.number().optional(),
   f2: z.number().optional(),
-  fa: z.array(z.union([z.number(), z.undefined()])).max(12).optional(),
+  fa: z.array(z.union([z.number(), z.null(), z.undefined()])).max(12).optional().transform(arr => arr?.map(v => v === null ? undefined : v)),
   g: z.boolean().optional(),
   n: z.boolean().optional(),
   l: z.boolean().optional(),
