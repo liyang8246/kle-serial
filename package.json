@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsdown",
     "prepack": "pnpm build",
-    "test": "vitest",
+    "test": "vitest --run",
     "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
