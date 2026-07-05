@@ -7,24 +7,39 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Set node
-        uses: actions/setup-node@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: pnpm
           registry-url: https://registry.npmjs.org
-
       - run: pnpm install
       - run: pnpm build
       - run: npm publish --provenance --access public
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || true)
+          if [ -n "$PREV" ]; then
+            LOG=$(git log --format='- %s' "$PREV"..HEAD)
+          else
+            LOG=$(git log --format='- %s')
+          fi
+          echo "log<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$LOG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: '@liyang8246/kle-serial ${{ github.ref_name }}'
+          body: ${{ steps.notes.outputs.log }}
