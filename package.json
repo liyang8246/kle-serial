@@ -1,0 +1,57 @@
+{
+  "name": "kle-serial",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Modern TypeScript KLE JSON parser and serializer with Zod validation",
+  "license": "MIT",
+  "keywords": [
+    "kle",
+    "keyboard-layout-editor",
+    "keyboard",
+    "parser",
+    "serializer",
+    "zod"
+  ],
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "pnpm build",
+    "test": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "simple-git-hooks"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.9.0",
+      "onFail": "download"
+    }
+  },
+  "dependencies": {
+    "json5": "^2.2.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.1.0",
+    "eslint": "^10.6.0",
+    "lint-staged": "^17.0.8",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.22.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
