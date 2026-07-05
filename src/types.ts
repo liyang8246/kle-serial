@@ -165,6 +165,28 @@ export const RawKeyPropsSchema = z.object({
 export type RawKeyProps = z.infer<typeof RawKeyPropsSchema>
 
 // ---------------------------------------------------------------------------
+// Compact format schema (key rows only, no metadata)
+// ---------------------------------------------------------------------------
+
+/** A single element within a compact row: either a label string or a key-props object. */
+export const CompactRowElementSchema = z.union([z.string(), RawKeyPropsSchema])
+
+/** A compact row: an array of label strings and/or key-props objects. */
+export const CompactRowSchema = z.array(CompactRowElementSchema)
+
+/** The full compact format: an array of rows (no metadata object). */
+export const CompactKeyboardSchema = z.array(CompactRowSchema)
+
+/** TypeScript type for a single compact row element. */
+export type CompactRowElement = z.infer<typeof CompactRowElementSchema>
+
+/** TypeScript type for a compact row. */
+export type CompactRow = z.infer<typeof CompactRowSchema>
+
+/** TypeScript type for the full compact keyboard format. */
+export type CompactKeyboard = z.infer<typeof CompactKeyboardSchema>
+
+// ---------------------------------------------------------------------------
 // Internal: mutable "current state" used during parsing
 // ---------------------------------------------------------------------------
 

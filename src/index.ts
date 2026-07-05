@@ -1,7 +1,10 @@
-export { deserialize, KleParseError, parse } from './parse'
-export { serialize, sortKeys } from './serialize'
+export { deserialize, deserializeCompact, KleParseError, parse, parseCompact } from './parse'
+export { serialize, serializeCompact, sortKeys } from './serialize'
 export {
   clone,
+  CompactKeyboardSchema,
+  CompactRowElementSchema,
+  CompactRowSchema,
   createCurrentState,
   DEFAULT_KEY,
   DEFAULT_METADATA,
@@ -11,4 +14,4 @@ export {
   reorderLabelsIn,
   roundTo4,
 } from './types'
-export type { CurrentKeyState, Key, Keyboard, KeyboardMetadata, RawKeyProps } from './types'
+export type { CompactKeyboard, CompactRow, CompactRowElement, CurrentKeyState, Key, Keyboard, KeyboardMetadata, RawKeyProps } from './types'

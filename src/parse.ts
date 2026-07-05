@@ -1,6 +1,6 @@
 import type { Key, Keyboard, KeyboardMetadata } from './types'
 import JSON5 from 'json5'
-import { clone, createCurrentState, DEFAULT_METADATA, RawKeyPropsSchema, reorderLabelsIn } from './types'
+import { clone, CompactKeyboardSchema, createCurrentState, DEFAULT_METADATA, RawKeyPropsSchema, reorderLabelsIn } from './types'
 
 export class KleParseError extends Error {
   constructor(message: string, public readonly data?: unknown) {
@@ -140,4 +140,28 @@ export function deserialize(rows: unknown[]): Keyboard {
 export function parse(json: string): Keyboard {
   const result = JSON5.parse(json)
   return deserialize(result)
+}
+
+/**
+ * Parse compact KLE format (key rows only, no metadata) into a Keyboard.
+ *
+ * Validates input against CompactKeyboardSchema before delegating to
+ * deserialize.  Metadata defaults are filled in automatically.
+ */
+export function deserializeCompact(rows: unknown): Keyboard {
+  const parsed = CompactKeyboardSchema.safeParse(rows)
+  if (!parsed.success)
+    throw new KleParseError('invalid compact format', { errors: parsed.error, input: rows })
+  return deserialize(parsed.data)
+}
+
+/**
+ * Parse a JSON string of compact KLE format into a Keyboard.
+ *
+ * Symmetric with `parse()` — accepts a JSON5 string of key rows
+ * (no metadata).  Metadata defaults are filled in automatically.
+ */
+export function parseCompact(json: string): Keyboard {
+  const result = JSON5.parse(json)
+  return deserializeCompact(result)
 }

@@ -1,4 +1,4 @@
-import type { Key, Keyboard } from './types'
+import type { CompactKeyboard, Key, Keyboard } from './types'
 import { clone, DEFAULT_KEY, DEFAULT_METADATA, DISALLOWED_ALIGNMENT_FOR_LABELS, LABEL_MAP, roundTo4 } from './types'
 
 // ---------------------------------------------------------------------------
@@ -256,4 +256,27 @@ export function serialize(keyboard: Keyboard): unknown[] {
     rows.push(row)
 
   return rows
+}
+
+// ---------------------------------------------------------------------------
+// serializeCompact
+// ---------------------------------------------------------------------------
+
+/**
+ * Serialize a Keyboard to the compact KLE format (key rows only, no metadata).
+ *
+ * Returns a standard JS/TS array of row arrays, suitable for JSON.stringify
+ * or any other serialization.  The metadata row is omitted, matching the
+ * KLE website's "Raw Data" tab output.
+ *
+ * Each row is an array of strings (key labels) and/or objects (key properties
+ * that differ from carry-forward defaults), identical to the sub-arrays
+ * produced by `serialize()` — just without the leading metadata object.
+ */
+export function serializeCompact(keyboard: Keyboard): CompactKeyboard {
+  const rows = serialize(keyboard)
+
+  // Drop the metadata row (first element if it's a non-array object)
+  const start = rows.length > 0 && !Array.isArray(rows[0]) ? 1 : 0
+  return rows.slice(start) as CompactKeyboard
 }
