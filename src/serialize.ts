@@ -21,11 +21,11 @@ function serializeProp(props: Record<string, unknown>, name: string, val: unknow
 
 export function sortKeys(keys: Key[]): Key[] {
   return [...keys].sort((a, b) =>
-    ((a.rotation_angle + 360) % 360 - (b.rotation_angle + 360) % 360)
-    || (a.rotation_x - b.rotation_x)
-    || (a.rotation_y - b.rotation_y)
-    || (a.y - b.y)
-    || (a.x - b.x),
+    (roundTo4((a.rotation_angle + 360) % 360) - roundTo4((b.rotation_angle + 360) % 360))
+    || (roundTo4(a.rotation_x) - roundTo4(b.rotation_x))
+    || (roundTo4(a.rotation_y) - roundTo4(b.rotation_y))
+    || (roundTo4(a.y) - roundTo4(b.y))
+    || (roundTo4(a.x) - roundTo4(b.x)),
   )
 }
 
@@ -56,8 +56,8 @@ function reorderLabels(key: Key, current: { textSize: (number | undefined)[] }):
 
   const ret: ReorderResult = {
     align: align[0] ?? 4,
-    labels: Array.from({ length: 12 }).fill(''),
-    textColor: Array.from({ length: 12 }).fill(''),
+    labels: Array.from<string>({ length: 12 }).fill(''),
+    textColor: Array.from<string>({ length: 12 }).fill(''),
     textSize: [],
   }
 

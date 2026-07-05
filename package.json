@@ -24,7 +24,7 @@
     "build": "tsdown",
     "prepack": "pnpm build",
     "test": "vitest",
-    "lint": "eslint .",
+    "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "devEngines": {
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.1.0",
+    "@types/node": "^26.1.0",
     "eslint": "^10.6.0",
     "tsdown": "^0.22.3",
     "typescript": "^6.0.3",
