@@ -1,10 +1,14 @@
 {
-  "name": "kle-serial",
+  "name": "@liyang8246/kle-serial",
   "type": "module",
   "version": "0.1.0",
   "packageManager": "pnpm@11.10.0",
   "description": "Modern TypeScript KLE JSON parser and serializer with Zod validation",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liyang8246/kle-serial.git"
+  },
   "keywords": [
     "kle",
     "keyboard-layout-editor",
