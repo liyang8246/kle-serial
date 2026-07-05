@@ -2,6 +2,7 @@
   "name": "kle-serial",
   "type": "module",
   "version": "0.1.0",
+  "packageManager": "pnpm@11.10.0",
   "description": "Modern TypeScript KLE JSON parser and serializer with Zod validation",
   "license": "MIT",
   "keywords": [
@@ -26,13 +27,6 @@
     "test": "vitest --run",
     "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix"
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.9.0",
-      "onFail": "download"
-    }
   },
   "dependencies": {
     "json5": "^2.2.3",
