@@ -1,7 +1,7 @@
 {
   "name": "@liyang8246/kle-serial",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@11.10.0",
   "description": "Modern TypeScript KLE JSON parser and serializer with Zod validation",
   "license": "MIT",
